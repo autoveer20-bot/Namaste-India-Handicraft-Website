@@ -1,0 +1,1262 @@
+:root {
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --color-primary: #A45132;
+    --color-primary-dark: #82381F;
+    --color-primary-light: #F8EFEA;
+    --color-accent: #B58A48;
+    --color-accent-light: #FBF6EC;
+    --color-dark: #3E2D25;
+    --color-darker: #26231F;
+    --color-bg: #F7F2E8;
+    --color-card-bg: #FFFFFF;
+    --color-cream: #EFE6D5;
+    --color-muted: #7E7770;
+    --color-border: rgba(62, 45, 37, 0.09);
+    --color-border-subtle: rgba(62, 45, 37, 0.05);
+
+    /* Elevation Shadows */
+    --shadow-card: 0 4px 20px -2px rgba(62, 45, 37, 0.06), 0 2px 6px -1px rgba(62, 45, 37, 0.03);
+    --shadow-hover: 0 22px 48px -12px rgba(62, 45, 37, 0.18), 0 8px 18px -4px rgba(164, 81, 50, 0.12);
+    --shadow-hover-gold: 0 22px 48px -12px rgba(181, 138, 72, 0.22), 0 8px 18px -4px rgba(181, 138, 72, 0.12);
+    --shadow-btn: 0 8px 22px -4px rgba(164, 81, 50, 0.35);
+    --shadow-btn-hover: 0 14px 30px -4px rgba(164, 81, 50, 0.48);
+    --shadow-active: 0 2px 6px rgba(62, 45, 37, 0.18);
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --radius-pill: 9999px;
+
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    font-family: var(--font-sans) !important;
+  }
+
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    background: var(--color-bg);
+    color: var(--color-darker);
+    font-family: var(--font-sans) !important;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans) !important;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+  a:hover {
+    color: var(--color-dark);
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: #E7D9C2;
+    color: #26231F;
+  }
+
+  /* Animations */
+  @keyframes niFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes niSlide { from { transform: translateX(100%); } to { transform: none; } }
+  @keyframes niBob { 0%, 100% { transform: translateY(0); opacity: 0.8; } 50% { transform: translateY(6px); opacity: 1; } }
+  @keyframes niZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+  @keyframes niPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  @keyframes niSpin360 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* Universal Click Zoom & Active Feedback */
+  .ni-btn, button, .ni-clickable {
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .ni-btn:active, button:active, .ni-clickable:active {
+    transform: scale(0.96) !important;
+  }
+
+  /* Primary Button */
+  .ni-btn-primary {
+    background: var(--color-primary);
+    color: #FFFFFF !important;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 14px 30px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-btn);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    white-space: nowrap !important;
+    transition: all 0.3s var(--ease-spring);
+  }
+  .ni-btn-primary:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadow-btn-hover);
+    color: #FFFFFF !important;
+  }
+  .ni-btn-primary:active {
+    transform: scale(0.96) !important;
+  }
+
+  /* Outline Button */
+  .ni-btn-outline {
+    background: transparent;
+    color: #FFFFFF !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    border-radius: var(--radius-pill);
+    padding: 13px 28px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    white-space: nowrap !important;
+    transition: all 0.3s var(--ease-spring);
+  }
+  .ni-btn-outline:hover {
+    background: #FFFFFF;
+    color: var(--color-dark) !important;
+    border-color: #FFFFFF;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  .ni-btn-outline:active {
+    transform: scale(0.96) !important;
+  }
+
+  /* Dark Outline Button */
+  .ni-btn-outline-dark {
+    background: transparent;
+    color: var(--color-dark) !important;
+    border: 1.5px solid var(--color-dark);
+    border-radius: var(--radius-pill);
+    padding: 12px 26px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    white-space: nowrap !important;
+    transition: all 0.3s var(--ease-spring);
+  }
+  .ni-btn-outline-dark:hover {
+    background: var(--color-dark);
+    color: #FFFFFF !important;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 10px 24px rgba(62, 45, 37, 0.18);
+  }
+  .ni-btn-outline-dark:active {
+    transform: scale(0.96) !important;
+  }
+
+  /* =========================================================================
+     CARD TYPE 1: BENTO CATEGORY CARDS (STRICT 1-LINE PILL)
+     ========================================================================= */
+  .ni-bento-card {
+    display: block;
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ni-bento-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(164, 81, 50, 0.25);
+  }
+  .ni-bento-card:active {
+    transform: scale(0.98);
+  }
+  .ni-bento-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: #EFE6D5;
+  }
+  .ni-bento-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-bento-card:hover .ni-bento-img {
+    transform: scale(1.08);
+  }
+  .ni-bento-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(30,22,17,0) 40%, rgba(30,22,17,0.7) 100%);
+    transition: opacity 0.35s ease;
+  }
+
+  /* STRICT SINGLE-LINE PILL CONTAINER */
+  .ni-bento-pill {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 14px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: var(--radius-pill);
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+    transition: all 0.3s ease;
+  }
+  .ni-bento-card:hover .ni-bento-pill {
+    background: #FFFFFF;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  }
+  .ni-bento-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-darker);
+    letter-spacing: -0.01em;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1;
+    flex: 1;
+    min-width: 0;
+  }
+  .ni-bento-arrow {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-dark);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .ni-bento-card:hover .ni-bento-arrow {
+    background: var(--color-primary);
+    transform: translateX(2px) rotate(-45deg);
+  }
+
+  /* =========================================================================
+     CARD TYPE 2: REGIONAL HERITAGE CRAFT CARDS
+     ========================================================================= */
+  .ni-craft-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card-bg);
+    border-radius: 20px;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ni-craft-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(164, 81, 50, 0.28);
+  }
+  .ni-craft-card:active {
+    transform: scale(0.98);
+  }
+  .ni-craft-media {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: #EFE6D5;
+  }
+  .ni-craft-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-craft-card:hover .ni-craft-img {
+    transform: scale(1.08);
+  }
+  .ni-craft-info {
+    padding: 12px 4px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ni-craft-badge {
+    align-self: flex-start;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(164, 81, 50, 0.2);
+    white-space: nowrap !important;
+  }
+  .ni-craft-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-darker);
+    line-height: 1.25;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ni-craft-cta {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    white-space: nowrap !important;
+    transition: transform 0.25s ease;
+  }
+  .ni-craft-card:hover .ni-craft-cta {
+    transform: translateX(4px);
+    color: var(--color-primary-dark);
+  }
+
+  /* =========================================================================
+     CARD TYPE 3: ULTRA-MODERN PRODUCT CARDS (New Arrivals & Best Sellers)
+     ========================================================================= */
+  .ni-product-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card-bg);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .ni-product-card:hover {
+    transform: translateY(-9px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(164, 81, 50, 0.25);
+  }
+  .ni-product-card:active {
+    transform: scale(0.98);
+  }
+  .ni-product-media {
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #FAF7F2;
+  }
+  .ni-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-product-card:hover .ni-product-img {
+    transform: scale(1.08);
+  }
+
+  /* Tag Badges */
+  .ni-tag-pill {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .ni-tag-bestseller {
+    background: var(--color-dark);
+    color: #FFFFFF;
+  }
+  .ni-tag-new {
+    background: var(--color-primary);
+    color: #FFFFFF;
+  }
+
+  /* Wishlist Button */
+  .ni-wish-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s var(--ease-spring);
+  }
+  .ni-wish-btn:hover {
+    transform: scale(1.18);
+    background: #FFFFFF;
+    box-shadow: 0 8px 22px rgba(164, 81, 50, 0.28);
+  }
+  .ni-wish-btn:active {
+    transform: scale(0.85) !important;
+  }
+
+  /* Action Bottom Bar Dock */
+  .ni-product-actions {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 3;
+    display: flex;
+    gap: 8px;
+    white-space: nowrap !important;
+    transition: opacity 0.3s ease, transform 0.3s var(--ease-spring);
+  }
+  .ni-act-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap !important;
+    transition: all 0.25s ease;
+  }
+  .ni-act-quick {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    color: var(--color-darker);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .ni-act-quick:hover {
+    background: var(--color-darker);
+    color: #FFFFFF;
+    transform: scale(1.04);
+  }
+  .ni-act-add {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    box-shadow: 0 6px 18px rgba(164, 81, 50, 0.35);
+  }
+  .ni-act-add:hover {
+    background: var(--color-dark);
+    transform: scale(1.04);
+    box-shadow: 0 8px 22px rgba(62, 45, 37, 0.4);
+  }
+
+  /* Product Details */
+  .ni-product-info {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .ni-product-craft {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    white-space: nowrap !important;
+  }
+  .ni-product-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-darker);
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .ni-product-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    white-space: nowrap !important;
+  }
+  .ni-stars {
+    color: var(--color-accent);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .ni-rev-count {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  .ni-product-price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border-subtle);
+    white-space: nowrap !important;
+  }
+  .ni-price-current {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--color-darker);
+  }
+  .ni-price-mrp {
+    font-size: 12px;
+    color: var(--color-muted);
+    text-decoration: line-through;
+  }
+  .ni-discount-pill {
+    margin-left: auto;
+    background: #EBF8EE;
+    color: #248239;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 6px;
+    white-space: nowrap !important;
+  }
+
+  /* =========================================================================
+     CARD TYPE 4: SPACES ARCHITECTURAL CARDS
+     ========================================================================= */
+  .ni-space-card {
+    display: block;
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    background: #EFE6D5;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ni-space-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+  }
+  .ni-space-card:active {
+    transform: scale(0.98);
+  }
+  .ni-space-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-space-card:hover .ni-space-img {
+    transform: scale(1.08);
+  }
+  .ni-space-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(30,22,17,0.05) 45%, rgba(30,22,17,0.85) 100%);
+  }
+  .ni-space-content {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+  .ni-space-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+    white-space: nowrap !important;
+  }
+  .ni-space-sub {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #E3C48E;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap !important;
+    transition: transform 0.3s ease;
+  }
+  .ni-space-card:hover .ni-space-sub {
+    transform: translateX(4px);
+    color: #FFFFFF;
+  }
+
+  /* =========================================================================
+     CARD TYPE 5: GIFTING CARDS
+     ========================================================================= */
+  .ni-gift-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card-bg);
+    border-radius: 20px;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ni-gift-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover-gold);
+    border-color: rgba(181, 138, 72, 0.35);
+  }
+  .ni-gift-card:active {
+    transform: scale(0.98);
+  }
+  .ni-gift-media {
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    background: #EFE6D5;
+    position: relative;
+  }
+  .ni-gift-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-gift-card:hover .ni-gift-img {
+    transform: scale(1.08);
+  }
+  .ni-gift-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 4px 4px;
+    white-space: nowrap !important;
+  }
+  .ni-gift-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-darker);
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ni-gift-btn {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap !important;
+  }
+
+  /* =========================================================================
+     CARD TYPE 6: ARTISAN MAKER CARDS
+     ========================================================================= */
+  .ni-maker-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card-bg);
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ni-maker-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(164, 81, 50, 0.25);
+  }
+  .ni-maker-card:active {
+    transform: scale(0.98);
+  }
+  .ni-maker-media {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    background: #EFE6D5;
+  }
+  .ni-maker-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-maker-card:hover .ni-maker-img {
+    transform: scale(1.08);
+  }
+  .ni-maker-badge {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    background: rgba(38, 35, 31, 0.85);
+    backdrop-filter: blur(10px);
+    color: #FAF3E6;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap !important;
+  }
+  .ni-maker-info {
+    padding: 22px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .ni-maker-meta {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    white-space: nowrap !important;
+  }
+  .ni-maker-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-darker);
+    margin-top: 6px;
+    white-space: nowrap !important;
+  }
+  .ni-maker-bio {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--color-muted);
+    margin: 10px 0 16px;
+  }
+  .ni-maker-link {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-darker);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    white-space: nowrap !important;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .ni-maker-card:hover .ni-maker-link {
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+
+  /* =========================================================================
+     CARD TYPE 7: TESTIMONIAL / REVIEWS CARDS
+     ========================================================================= */
+  .ni-review-card {
+    background: var(--color-card-bg);
+    border-radius: 22px;
+    padding: 28px 24px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+  .ni-review-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(181, 138, 72, 0.3);
+  }
+  .ni-review-card:active {
+    transform: scale(0.98);
+  }
+  .ni-review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap !important;
+  }
+  .ni-rev-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #22863A;
+    background: #EBF8EE;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap !important;
+  }
+  .ni-rev-quote {
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--color-darker);
+    margin: 0;
+    font-style: italic;
+  }
+  .ni-rev-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border-subtle);
+    white-space: nowrap !important;
+  }
+  .ni-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ni-reviewer-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--color-darker);
+    white-space: nowrap !important;
+  }
+  .ni-reviewer-item {
+    font-size: 11px;
+    color: var(--color-muted);
+    margin-top: 2px;
+    white-space: nowrap !important;
+  }
+
+  /* =========================================================================
+     CARD TYPE 8: JOURNAL & BLOG CARDS
+     ========================================================================= */
+  .ni-journal-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-card-bg);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ni-journal-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(164, 81, 50, 0.25);
+  }
+  .ni-journal-card:active {
+    transform: scale(0.98);
+  }
+  .ni-journal-media {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: #EFE6D5;
+  }
+  .ni-journal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.85s var(--ease-spring);
+  }
+  .ni-journal-card:hover .ni-journal-img {
+    transform: scale(1.08);
+  }
+  .ni-journal-info {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .ni-journal-cat {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    white-space: nowrap !important;
+  }
+  .ni-journal-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-darker);
+    margin-top: 6px;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ni-journal-blurb {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    margin: 8px 0 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .ni-journal-link {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-darker);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    white-space: nowrap !important;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .ni-journal-card:hover .ni-journal-link {
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+
+  /* =========================================================================
+     HEADER & NAV ICON CONTROLS
+     ========================================================================= */
+  .ni-nav-item {
+    color: var(--color-dark);
+    padding: 8px 0;
+    position: relative;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap !important;
+    transition: color 0.25s ease;
+  }
+  .ni-nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s var(--ease-spring);
+    border-radius: 2px;
+  }
+  .ni-nav-item:hover {
+    color: var(--color-primary);
+  }
+  .ni-nav-item:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .ni-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-dark);
+    transition: all 0.25s var(--ease-spring);
+    position: relative;
+  }
+  .ni-icon-btn:hover {
+    background: rgba(62, 45, 37, 0.07);
+    color: var(--color-primary);
+    transform: scale(1.1);
+  }
+  .ni-icon-btn:active {
+    transform: scale(0.9) !important;
+  }
+
+  /* Cart Badge */
+  .ni-badge-counter {
+    position: absolute;
+    top: 4px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    background: var(--color-primary);
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(164, 81, 50, 0.4);
+    animation: niPulse 2.5s infinite ease-in-out;
+  }
+
+  /* Floating Tooltip */
+  .ni-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+    background: var(--color-dark);
+    color: #F7F2E8;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 8px 24px rgba(38, 35, 31, 0.28);
+    white-space: nowrap !important;
+    pointer-events: none;
+    animation: niFade 0.2s ease both;
+    z-index: 70;
+  }
+
+  /* Modern Glassmorphic Statistics Bar in Hero */
+  .ni-hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 36px;
+    margin-top: 44px;
+    padding: 16px 24px;
+    border-radius: 18px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    white-space: nowrap !important;
+  }
+  .ni-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap !important;
+  }
+  .ni-stat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(227, 196, 142, 0.2);
+    color: #E3C48E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ni-stat-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.02em;
+    white-space: nowrap !important;
+  }
+  .ni-stat-sub {
+    font-size: 10.5px;
+    color: rgba(240, 232, 218, 0.75);
+    font-weight: 500;
+    white-space: nowrap !important;
+  }
+
+  /* 360-degree View Degree Selector Pill */
+  .ni-deg-btn {
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+    background: #FFFFFF;
+    color: var(--color-darker);
+    cursor: pointer;
+    white-space: nowrap !important;
+    transition: all 0.2s ease;
+  }
+  .ni-deg-btn:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+  .ni-deg-btn.active {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+  }
+
+  /* Scrolled Header Style */
+  #mainHeader {
+    transition: padding 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+  #mainHeader.scrolled {
+    padding: 10px 0 !important;
+    box-shadow: 0 10px 30px rgba(62, 45, 37, 0.08);
+  }
+  #mainHeader.scrolled .ni-logo-img {
+    height: 38px !important;
+  }
+
+  /* Modal Overlay */
+  .ni-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(26, 18, 14, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    animation: niFade 0.25s ease both;
+  }
+
+  /* Drawer Overlay */
+  .ni-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(26, 18, 14, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: none;
+    animation: niFade 0.2s ease both;
+  }
+
+  .ni-drawer-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 460px;
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.25);
+    animation: niSlide 0.35s var(--ease-spring) both;
+  }
+
+  /* Toast Notification */
+  .ni-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #26231F;
+    color: #F7F2E8;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s var(--ease-spring);
+    white-space: nowrap;
+  }
+  .ni-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Quick View Modal Responsive */
+  .ni-quick-modal-card {
+    background: #FFFFFF;
+    border-radius: 28px;
+    width: 100%;
+    max-width: 980px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid rgba(62, 45, 37, 0.1);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    position: relative;
+    animation: niFade 0.25s ease both;
+  }
+
+  @media (max-width: 768px) {
+    .ni-quick-modal-card {
+      grid-template-columns: 1fr;
+    }
+  }
