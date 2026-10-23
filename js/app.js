@@ -109,13 +109,9 @@ class AppState {
     this.wishlist = this.loadWishlist();
     this.giftWrap = false;
     
-    // Quick View 360 State
+    // Quick View State
     this.quickProduct = null;
-    this.quickAngle = 0;
-    this.quickAutoSpin = false;
-    this.quickZoom = false;
     this.quickQty = 1;
-    this.spinInterval = null;
   }
 
   loadCart() {
@@ -272,7 +268,7 @@ export function renderProductCards() {
                   <circle cx="12" cy="12" r="10"></circle>
                   <path d="M12 8v8M8 12h8"></path>
                 </svg>
-                <span>360° Quick View</span>
+                <span>Quick View</span>
               </button>
               <button type="button" class="ni-act-btn ni-act-add" data-add-id="${p.id}">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -412,19 +408,12 @@ export function closeCart() {
 }
 
 // ============================================================================
-// 360° INTERACTIVE 3D PRODUCT VIEWER
+// PRODUCT QUICK VIEW
 // ============================================================================
 
 export function openQuickView(product) {
   state.quickProduct = product;
-  state.quickAngle = 0;
-  state.quickAutoSpin = false;
-  state.quickZoom = false;
   state.quickQty = 1;
-  if (state.spinInterval) {
-    clearInterval(state.spinInterval);
-    state.spinInterval = null;
-  }
 
   const modal = document.getElementById('quickViewModal');
   if (!modal) return;
@@ -460,17 +449,18 @@ export function openQuickView(product) {
     : 'Best Value';
   if (savingsEl) savingsEl.textContent = discount;
 
-  update360View();
+  const imgEl = document.getElementById('qvProductImg');
+  if (imgEl) {
+    imgEl.src = product.img;
+    imgEl.alt = product.name;
+  }
+
+  updateQuickTotal();
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 
 export function closeQuickView() {
-  if (state.spinInterval) {
-    clearInterval(state.spinInterval);
-    state.spinInterval = null;
-  }
-  state.quickAutoSpin = false;
   const modal = document.getElementById('quickViewModal');
   if (modal) {
     modal.style.display = 'none';
@@ -478,96 +468,9 @@ export function closeQuickView() {
   }
 }
 
-export function setQuickAngle(deg) {
-  if (state.quickAutoSpin) {
-    stopAutoSpin();
-  }
-  state.quickAngle = ((deg % 360) + 360) % 360;
-  update360View();
-}
-
-function stopAutoSpin() {
-  if (state.spinInterval) {
-    clearInterval(state.spinInterval);
-    state.spinInterval = null;
-  }
-  state.quickAutoSpin = false;
-  const spinBtn = document.getElementById('qvSpinBtn');
-  const spinLabel = document.getElementById('qvSpinLabel');
-  const badgeSpin = document.getElementById('qvBadgeSpin');
-  if (spinBtn) {
-    spinBtn.style.background = '#FFFFFF';
-    spinBtn.style.color = 'var(--color-primary)';
-  }
-  if (spinLabel) spinLabel.textContent = 'Auto 360° Spin';
-  if (badgeSpin) badgeSpin.style.animation = 'none';
-}
-
-function toggleAutoSpin() {
-  if (state.quickAutoSpin) {
-    stopAutoSpin();
-  } else {
-    state.quickAutoSpin = true;
-    const spinBtn = document.getElementById('qvSpinBtn');
-    const spinLabel = document.getElementById('qvSpinLabel');
-    const badgeSpin = document.getElementById('qvBadgeSpin');
-    if (spinBtn) {
-      spinBtn.style.background = 'var(--color-primary)';
-      spinBtn.style.color = '#FFFFFF';
-    }
-    if (spinLabel) spinLabel.textContent = 'Pause 360° Spin';
-    if (badgeSpin) badgeSpin.style.animation = 'niSpin360 2.5s linear infinite';
-
-    if (state.spinInterval) clearInterval(state.spinInterval);
-    state.spinInterval = setInterval(() => {
-      if (!state.quickAutoSpin) {
-        clearInterval(state.spinInterval);
-        return;
-      }
-      state.quickAngle = (state.quickAngle + 8) % 360;
-      update360View();
-    }, 100);
-  }
-}
-
-function toggleZoom() {
-  state.quickZoom = !state.quickZoom;
-  const zoomBtn = document.getElementById('qvZoomBtn');
-  const zoomLabel = document.getElementById('qvZoomLabel');
-  if (zoomLabel) zoomLabel.textContent = state.quickZoom ? 'Zoom Out' : 'Zoom Texture';
-  update360View();
-}
-
-function update360View() {
+function updateQuickTotal() {
   const p = state.quickProduct || CATALOG[0];
-  const angle = state.quickAngle;
-  const imgEl = document.getElementById('qvProductImg');
-  const angleDisplay = document.getElementById('qvAngleText');
-  const slider = document.getElementById('qvAngleSlider');
   const lineTotal = document.getElementById('qvLineTotal');
-
-  if (angleDisplay) angleDisplay.textContent = angle;
-  if (slider) slider.value = angle;
-
-  // Swap rear view for realism
-  const showAlt = (angle >= 120 && angle <= 260) && p.alt;
-  if (imgEl) {
-    imgEl.src = showAlt ? p.alt : p.img;
-    const scale = state.quickZoom ? 1.45 : 1.0;
-    imgEl.style.transform = `rotateY(${angle}deg) scale(${scale})`;
-    imgEl.style.transition = state.quickAutoSpin ? 'transform 0.1s linear' : 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-  }
-
-  // Update preset pills active state
-  document.querySelectorAll('.ni-deg-btn').forEach(btn => {
-    const targetDeg = Number(btn.getAttribute('data-angle'));
-    if (targetDeg === angle) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
-
   if (lineTotal) lineTotal.textContent = inr(p.price * state.quickQty);
 }
 
@@ -664,7 +567,7 @@ export function init() {
 
   // Delegate Product Card Clicks
   document.addEventListener('click', (e) => {
-    // 360 Quick View Button
+    // Quick View Button
     const quickBtn = e.target.closest('[data-quick-id]');
     if (quickBtn) {
       e.preventDefault();
@@ -771,32 +674,18 @@ export function init() {
     if (e.target.id === 'quickViewOverlay') closeQuickView();
   });
 
-  document.getElementById('qvAngleSlider')?.addEventListener('input', (e) => {
-    setQuickAngle(Number(e.target.value));
-  });
-
-  document.querySelectorAll('.ni-deg-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const deg = Number(btn.getAttribute('data-angle'));
-      setQuickAngle(deg);
-    });
-  });
-
-  document.getElementById('qvSpinBtn')?.addEventListener('click', toggleAutoSpin);
-  document.getElementById('qvZoomBtn')?.addEventListener('click', toggleZoom);
-
   document.getElementById('qvQtyDec')?.addEventListener('click', () => {
     if (state.quickQty > 1) {
       state.quickQty--;
       document.getElementById('qvQty').textContent = state.quickQty;
-      update360View();
+      updateQuickTotal();
     }
   });
 
   document.getElementById('qvQtyInc')?.addEventListener('click', () => {
     state.quickQty++;
     document.getElementById('qvQty').textContent = state.quickQty;
-    update360View();
+    updateQuickTotal();
   });
 
   document.getElementById('qvAddToCartBtn')?.addEventListener('click', () => {

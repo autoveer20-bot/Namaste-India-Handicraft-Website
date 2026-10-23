@@ -74,7 +74,6 @@
   @keyframes niBob { 0%, 100% { transform: translateY(0); opacity: 0.8; } 50% { transform: translateY(6px); opacity: 1; } }
   @keyframes niZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
   @keyframes niPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-  @keyframes niSpin360 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
   /* Universal Click Zoom & Active Feedback */
   .ni-btn, button, .ni-clickable {
@@ -1136,41 +1135,98 @@
     white-space: nowrap !important;
   }
 
-  /* 360-degree View Degree Selector Pill */
-  .ni-deg-btn {
-    padding: 6px 12px;
-    border-radius: var(--radius-pill);
-    font-size: 11px;
-    font-weight: 700;
-    border: 1px solid var(--color-border);
-    background: #FFFFFF;
-    color: var(--color-darker);
-    cursor: pointer;
-    white-space: nowrap !important;
-    transition: all 0.2s ease;
-  }
-  .ni-deg-btn:hover {
-    background: var(--color-primary-light);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-1px);
-  }
-  .ni-deg-btn.active {
-    background: var(--color-primary);
-    color: #FFFFFF;
-    border-color: var(--color-primary);
-  }
-
   /* Scrolled Header Style */
   #mainHeader {
     transition: padding 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   }
   #mainHeader.scrolled {
-    padding: 10px 0 !important;
+    padding: 6px 0 !important;
     box-shadow: 0 10px 30px rgba(62, 45, 37, 0.08);
   }
   #mainHeader.scrolled .ni-logo-img {
-    height: 38px !important;
+    height: 68px !important;
+  }
+
+  /* Brand Logo */
+  .ni-logo-link {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    line-height: 0;
+    border-radius: var(--radius-sm);
+  }
+  .ni-logo-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+  }
+  .ni-logo-img {
+    display: block;
+    height: 86px;
+    width: auto;
+    transition: height 0.3s ease, transform 0.3s var(--ease-spring);
+  }
+  .ni-logo-link:hover .ni-logo-img {
+    transform: scale(1.03);
+  }
+
+  .ni-footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    grid-column: span 2;
+    max-width: 380px;
+  }
+  .ni-footer-brand p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #C9BCAB;
+  }
+  .ni-footer-logo {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    line-height: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+  .ni-footer-logo img {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 1100px) {
+    .ni-header-inner {
+      flex-wrap: wrap;
+      row-gap: 6px !important;
+    }
+    .ni-main-nav {
+      order: 3;
+      flex: 1 0 100%;
+      margin: 0 !important;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .ni-main-nav::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ni-header-inner {
+      padding: 0 16px !important;
+      column-gap: 12px !important;
+    }
+    .ni-logo-img,
+    #mainHeader.scrolled .ni-logo-img {
+      height: 58px !important;
+    }
+    .ni-footer-brand {
+      grid-column: 1 / -1;
+    }
   }
 
   /* Modal Overlay */
